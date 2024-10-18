@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.text-shadow {
+  text-shadow: 2px 2px 4px goldenrod;
+}
 
 /* body {
   margin: 0;

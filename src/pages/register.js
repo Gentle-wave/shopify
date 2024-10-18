@@ -1,20 +1,21 @@
 import { useState } from 'react';
-import { useAuthStore } from '../store/authStore'; // Zustand or Context API
+import { useAuth } from '../context/AuthContext';
 
 export default function Register() {
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const register = useAuthStore((state) => state.register);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    register(email, password);
+
+    login(email, password);
   };
 
   return (
     <div>
       {/* <NavBar /> */}
-      <div className="container mx-auto mt-10">
+      <div className="container mx-auto mt-10 h-[90vh] ">
         <h1 className="text-3xl font-bold text-center">Register</h1>
         <form className="max-w-md mx-auto mt-6 p-4 bg-white shadow-md" onSubmit={handleSubmit}>
           <div className="mb-4">
