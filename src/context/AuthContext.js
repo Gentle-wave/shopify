@@ -4,26 +4,46 @@ import { useNavigate } from 'react-router-dom';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
+    const [registeredUsers, setRegisteredUsers] = useState([]); // State to store registered users
 
     const login = (email, password) => {
-        setUser({ email });
-        alert('Login successful!');
-        navigate('/')
+        // Check if the user is registered and credentials match
+        const foundUser = registeredUsers.find(
+            (registeredUser) => registeredUser.email === email && registeredUser.password === password
+        );
+
+        if (foundUser) {
+            setUser({ email });
+            alert('Login successful!');
+            navigate('/');
+        } else {
+            alert('Login failed! Incorrect email or password.');
+        }
     };
 
     const signup = (email, password) => {
-        setUser({ email });
-        alert('Signup successful!');
-        navigate('/login')
+        // Check if user is already registered
+        const existingUser = registeredUsers.find(
+            (registeredUser) => registeredUser.email === email
+        );
 
+        if (existingUser) {
+            alert('Signup failed! User already exists.');
+        } else {
+            // Add new user to registeredUsers
+            const newUser = { email, password }; // You can also hash the password for security
+            setRegisteredUsers((prevUsers) => [...prevUsers, newUser]);
+            alert('Registration successful!');
+            navigate('/login');
+        }
     };
 
     const logout = () => {
         setUser(null);
         alert('Logout successful!');
-        navigate('/login')
+        navigate('/login');
     };
 
     return (

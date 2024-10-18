@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 export default function Register() {
-  const { login } = useAuth();
+  const { signup } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    login(email, password);
+    signup(email, password);
   };
 
   return (
