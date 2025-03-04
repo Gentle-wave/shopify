@@ -1,31 +1,26 @@
-import { useState, useEffect } from 'react';
-import allProduct from '../data'
+import { useEffect, useState } from 'react';
+// import allProduct from '../data'
 import ProductLayoutOne from '../components/product/ProductLayoutOne';
+import { useLoaderData } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
+
 
 export default function Home() {
-  const images = [
-    '../assets/pexels-asphotograpy-94843.jpg',
-    '../assets/pexels-cottonbro-6686455.jpg',
-    '../assets/pexels-garrettmorrow-682933.jpg',
-    '../assets/pexels-markus-winkler-1430818-3812433.jpg',
-    '../assets/pexels-martabranco-1395305.jpg',
-    '../assets/pexels-n-voitkevich-6214471.jpg',
-  ];
+  const { products: allProduct, carts } = useLoaderData()
+  const {addToCart} = useCart()
 
   const [category, setCategory] = useState("Categories");
   const [product, setProduct] = useState("New Product");
   const categories = ["Electronics", "Fashion", "Books"];
   const products = ["Latest", "Popular", "Upcoming"];
 
-  const [currentImage, setCurrentImage] = useState(0);
-
-  // Switch images every 3 seconds
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImage((prevImage) => (prevImage + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [images.length]);
+    carts?.forEach(cart => {
+      addToCart(cart)
+    })
+  }, [addToCart, carts])
+
+
 
   return (
     <div className="mx-auto mb-16">

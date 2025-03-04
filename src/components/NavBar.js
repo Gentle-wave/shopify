@@ -1,11 +1,9 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { useState } from 'react';
 import { HiMenu, HiX } from 'react-icons/hi'; // Importing icons for hamburger and close
+import { useState } from 'react';
 
 export default function NavBar() {
-  const { user, logout } = useAuth();
   const { cart } = useCart();
   const [isOpen, setIsOpen] = useState(false); // State to manage menu visibility
 
@@ -27,31 +25,11 @@ export default function NavBar() {
           <li>
             <Link to="/products" className="text-white block p-2 md:p-0">Products</Link>
           </li>
-          {!user && (
-            <>
-              <li>
-                <Link to="/login" className="text-white block p-2 md:p-0">Login</Link>
-              </li>
-              <li>
-                <Link to="/register" className="text-white block p-2 md:p-0">Register</Link>
-              </li>
-            </>
-          )}
           <li>
             <Link to="/cart" className="text-white block p-2 md:p-0">
               Cart ({cart.length})
             </Link>
           </li>
-          {user && (
-            <>
-              <li>
-                <button onClick={logout} className='text-white block p-2 md:p-0'>Logout</button>
-              </li>
-              <li className='flex gap-2 items-center text-[#F3BA10]'>
-                <h3 className='font-bold font-mono'>{user.email}</h3>
-              </li>
-            </>
-          )}
         </ul>
       </div>
     </nav>

@@ -1,27 +1,10 @@
-import { useEffect, useState } from 'react';
-import ProductCard from '../components/ProductCard';
+// import { useEffect, useState } from 'react';
+// import ProductCard from '../components/ProductCard';
 import ProductLayoutOne from '../components/product/ProductLayoutOne';
+import { useLoaderData } from 'react-router-dom';
 
 export default function Products() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    fetch('https://fakestoreapi.com/products')
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError(true);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) return <p className="text-center min-h-[90vh] mt-10">Loading...</p>;
-  if (error) return <p className="text-center min-h-[90vh] mt-10">Failed to load products.</p>;
+  const { products } = useLoaderData()
 
   return (
     <div>

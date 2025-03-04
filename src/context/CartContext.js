@@ -6,14 +6,21 @@ const CartContext = createContext();
 // Reducer to handle cart actions
 const cartReducer = (state, action) => {
     switch (action.type) {
+        case 'INCREASE_QUANTITY':
+            return state.map(item => {
+                if (item.id === action.item.id) {
+                    return { ...item, quantity: item.quantity + 1 }
+                }
+                return item;
+            });
         case 'ADD_TO_CART':
             // Prevent duplicate entries
             if (!state.some((item) => item.id === action.item.id)) {
                 return [...state, action.item];
             }
-            return state;
+            return state
         case 'REMOVE_FROM_CART':
-            return state.filter((item, index) => index !== action.index);
+            return state.filter((item, index) => item.id !== action.item.id);
         default:
             return state;
     }
@@ -25,6 +32,10 @@ export const CartProvider = ({ children }) => {
     const addToCart = (item) => {
         dispatch({ type: 'ADD_TO_CART', item });
     };
+    
+    const increaseCartItemQuantity = (item) => {
+        dispatch({ type: 'INCREASE_QUANTITY', item });
+    };
 
     const removeFromCart = (index) => {
         dispatch({ type: 'REMOVE_FROM_CART', index });
@@ -35,7 +46,7 @@ export const CartProvider = ({ children }) => {
     };
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, removeFromCart, isInCart }}>
+        <CartContext.Provider value={{ cart, addToCart, removeFromCart, isInCart, increaseCartItemQuantity }}>
             {children}
         </CartContext.Provider>
     );
