@@ -37,8 +37,8 @@ export const CartProvider = ({ children }) => {
         dispatch({ type: 'INCREASE_QUANTITY', item });
     };
 
-    const removeFromCart = (index) => {
-        dispatch({ type: 'REMOVE_FROM_CART', index });
+    const removeFromCart = (item) => {
+        dispatch({ type: 'REMOVE_FROM_CART', item });
     };
 
     const isInCart = (itemId) => {

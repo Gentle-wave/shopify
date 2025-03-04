@@ -6,10 +6,11 @@ const CartPage = () => {
   const { carts: cartItems } = useLoaderData();
   const { removeFromCart, addToCart } = useCart();
 
-  const removeCartItem = useCallback(async (id) => {
+  const removeCartItem = useCallback(async (item) => {
     try {
-      removeFromCart(id)
-      const req = await fetch(`https://ncwpb75s-3000.euw.devtunnels.ms/cart/${id}`, {
+      removeFromCart(item)
+      // console.log('the route; ', `https://ncwpb75s-3000.euw.devtunnels.ms/cart/${item.id}`)
+      const req = await fetch(`https://ncwpb75s-3000.euw.devtunnels.ms/cart/${item.id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -24,11 +25,11 @@ const CartPage = () => {
     }
   }, [removeFromCart])
 
-    // useEffect(() => {
-    //   cartItems?.forEach(cart => {
-    //     addToCart(cart)
-    //   })
-    // }, [addToCart, cartItems])
+    useEffect(() => {
+      cartItems?.forEach(cart => {
+        addToCart(cart)
+      })
+    }, [addToCart, cartItems])
 
   return (
     <div className="container mx-auto p-4 min-h-[90vh]">
@@ -56,7 +57,7 @@ const CartPage = () => {
               <div className='flex flex-col items-center'>
                 <button
                   className="text-red-500 hover:text-red-700 font-semibold"
-                  onClick={() => removeCartItem(item.id)}
+                  onClick={() => removeCartItem(item)}
                 >
                   Remove
                 </button>
